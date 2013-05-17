@@ -279,7 +279,7 @@ context "Frontend" do
       :format => 'markdown', :message => 'foo'
 
     assert_equal "http://example.org/foo/home", last_response.headers['Location']
-   
+
     follow_redirect!
     assert last_response.ok?
   end
@@ -442,20 +442,20 @@ context "Frontend" do
     Precious::App.set(:wiki_options, { :base_path => nil })
   end
 =end
-  
+
   test "author details in session are used" do
     page1 = @wiki.page('A')
-    
+
     gollum_author = { :name => 'ghi', :email => 'jkl' }
     session = { 'gollum.author' => gollum_author }
-    
+
     post "/edit/A", { :content => 'abc', :page => 'A', :format => page1.format, :message => 'def' }, { 'rack.session' => session }
     follow_redirect!
     assert last_response.ok?
-    
+
     @wiki.clear_cache
     page2 = @wiki.page(page1.name)
-    
+
     author = page2.version.author
     assert_equal 'ghi', author.name
     assert_equal 'jkl', author.email
