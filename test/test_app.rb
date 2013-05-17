@@ -156,13 +156,12 @@ context "Frontend" do
 
     assert_equal 'header', header_2.raw_data
     assert_equal 'footer', foot_2.raw_data
-    assert_equal 'def',    foot_2.version.message
-    assert_not_equal foot_1.version.sha, foot_2.version.sha
-    assert_not_equal header_1.version.sha, header_2.version.sha
-
     assert_equal 'sidebar', side_2.raw_data
-    assert_equal 'def',     side_2.version.message
-    assert_not_equal side_1.version.sha, side_2.version.sha
+
+    assert_equal header_1.version.sha, header_2.version.sha
+    assert_equal foot_1.version.sha,   foot_2.version.sha
+    assert_equal side_1.version.sha,   side_2.version.sha
+
     assert_equal commits+1, @wiki.repo.commits('master').size
   end
 
