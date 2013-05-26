@@ -285,6 +285,26 @@ module Precious
       mustache :page
     end
 
+    get '/preview/*' do
+      if not settings.wiki_options.fetch :working_preview, false then halt 404 end
+      wiki = wiki_new
+      name = params[:splat].first
+      path = File.join(wiki.path, name)
+      begin
+        contents = File.open(path, "rb") { |io| io.read }
+      rescue
+        halt 404
+      end
+      format = Gollum::Page.parse_filename(path)
+      @page = wiki.preview_page(extract_name(name), contents, format.last)
+      @content = @page.formatted_data
+      @toc_content = wiki.universal_toc ? @page.toc_data : nil
+      @mathjax = wiki.mathjax
+      @h1_title = wiki.h1_title
+      @editable = false
+      mustache :page
+    end
+
     get '/history/*' do
       @page        = wiki_page(params[:splat].first).page
       @page_num    = [params[:page].to_i, 1].max

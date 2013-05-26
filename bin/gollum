@@ -91,6 +91,10 @@ opts = OptionParser.new do |opts|
   opts.on("--h1-title", "Sets page title to value of first h1") do
     wiki_options[:h1_title] = true
   end
+
+  opts.on("--working-preview", "Allows preview of local changes to the working directory.") do
+    wiki_options[:working_preview] = true
+  end
 end
 
 # Read command line options into `options` hash
